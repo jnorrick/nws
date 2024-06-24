@@ -51,7 +51,7 @@ def display_local_alerts(zone):
         alert_headline = alerts['features'][0]['properties']['headline']
         alert_description = alerts['features'][0]['properties']['description']
         alert_instructions = alerts['features'][0]['properties']['instruction']
-        print([alert_headline, alert_description, alert_instructions])
+        # print([alert_headline, alert_description, alert_instructions])
 
         return [alert_headline, alert_description, alert_instructions]
     
@@ -71,11 +71,61 @@ def display_state_alerts(area):
         return [alert_headline, alert_description, alert_instructions]
 
 
-print('*' * 50)
-print(display_forecast(forecast))
-print(display_local_alerts(local_zone))
+# print('*' * 50)
+# print(display_forecast(forecast))
+# print(display_local_alerts(local_zone))
 
-var1 = display_state_alerts(state_area)
-for item in var1:
-    print(item)
-print('*' * 50)
+# var1 = display_state_alerts(state_area)
+# for item in var1:
+#     print(item)
+# print('*' * 50)
+
+def display_state_alerts(area):
+    alerts = get_state_alerts(area).json()
+    #this will work if we are not sure if 'features' exists, it will return an empty array
+    # if not alerts.get('features', []):
+# this works if we are sure key 'features' will always be generated
+    if not alerts.get('features', []):
+        return "No current active alerts to display."
+    else:
+        
+        # need to account for if more than one alert is available
+        alert_headline = alerts['features'][0]['properties']['headline']
+        alert_description = alerts['features'][0]['properties']['description']
+        alert_instructions = alerts['features'][0]['properties']['instruction']
+
+        return [alert_headline, alert_description, alert_instructions]
+alerts = get_state_alerts(state_area).json()
+# for item in alerts['features']:
+print(len(alerts['features']))
+# alert_headline = alerts['features'][4]['properties']['headline']
+# print(alert_headline)
+# count = 0
+# for alert in alerts['features']:
+#     alert_headline = alerts['features'][count]['properties']['headline']
+#     alert_description = alerts['features'][count]['properties']['description']
+#     alert_instructions = alerts['features'][count]['properties']['instruction']
+#     count += 1
+#     print(alert_headline)
+#     print('*' *50)
+#     print(alert_description)
+#     print('*' *50)
+#     print(alert_instructions)
+    
+# print("THE END")
+
+
+
+
+
+for alert in alerts['features']:
+    alert_headline = alert['properties']['headline']
+    alert_description = alert['properties']['description']
+    alert_instructions = alert['properties']['instruction']
+    print(alert_headline)
+    print('*' *50)
+    print(alert_description)
+    print('*' *50)
+    print(alert_instructions)
+    
+print("THE END")
